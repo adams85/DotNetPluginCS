@@ -1,7 +1,7 @@
 ﻿<Project>
   <PropertyGroup>
-    <PluginName>x64dbgDotNetPlugin</PluginName>
-    <PluginAssemblyName>DotNetPlugin</PluginAssemblyName>
+    <PluginName>TraceCallsPlugin</PluginName>
+    <PluginAssemblyName>TraceCallsPlugin</PluginAssemblyName>
 
     <PluginRootNamespace>DotNetPlugin</PluginRootNamespace>
     <PluginOutputPath>..\bin\$(Platform)\$(Configuration)\</PluginOutputPath>
