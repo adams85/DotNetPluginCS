@@ -4,6 +4,7 @@
     <ItemGroup>
       <InputAssemblies Include="$(StubAssemblyPath)"/>
       <InputAssemblies Include="$(TargetPath)"/>
+      <InputAssemblies Include="$(TargetDir)FluentCommandLineParser.dll"/>
     </ItemGroup>
 
     <ILRepack

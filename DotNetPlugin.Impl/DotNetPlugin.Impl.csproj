@@ -26,6 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentCommandLineParser" Version="1.5.0.20-commands" />
     <PackageReference Include="ILRepack.Lib.MSBuild.Task" Version="2.0.18.2" />
     <PackageReference Include="UnmanagedExports.Repack" Version="1.0.4">
       <IncludeAssets>build</IncludeAssets>
