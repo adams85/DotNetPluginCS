@@ -2,9 +2,11 @@
   <PropertyGroup>
     <PluginName>x64dbgDotNetPlugin</PluginName>
     <PluginAssemblyName>DotNetPlugin</PluginAssemblyName>
-
+    
     <PluginRootNamespace>DotNetPlugin</PluginRootNamespace>
     <PluginOutputPath>..\bin\$(Platform)\$(Configuration)\</PluginOutputPath>
+
+    <PluginSdkPath>d:\Rev\x64dbg</PluginSdkPath>
 
     <LangVersion>9</LangVersion>
   </PropertyGroup>

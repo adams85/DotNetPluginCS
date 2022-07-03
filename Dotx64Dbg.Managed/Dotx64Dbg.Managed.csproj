@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>Dotx64Dbg</RootNamespace>
+    <TargetFramework>net472</TargetFramework>
+    <OutputType>Library</OutputType>
+    <UseWindowsForms>true</UseWindowsForms>
+    <Platforms>x86;x64</Platforms>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+    <SatelliteResourceLanguages>neutral</SatelliteResourceLanguages>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Platform)'=='x86'">
+    <DefineConstants>_X86_;$(DefineConstants)</DefineConstants>
+    <PluginExt>.dp32</PluginExt>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Platform)'=='x64'">
+    <DefineConstants>_X64_;$(DefineConstants)</DefineConstants>
+    <PluginExt>.dp64</PluginExt>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\DotNetPlugin.Stub\DotNetPlugin.Stub.csproj" />
+    <ProjectReference Include="..\Dotx64Dbg.Bindings\Dotx64Dbg.Bindings.vcxproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\Shared\Compatibility\IsExternalInit.cs" Link="Compatibility\IsExternalInit.cs" />
+  </ItemGroup>
+  
+</Project>

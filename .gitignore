@@ -389,3 +389,4 @@ FodyWeavers.xsd
 
 !DotNetPlugin.Impl/NativeBindings/Win32/
 !DotNetPlugin.Stub/NativeBindings/Win32/
+!asmjit/asmjit/x86/

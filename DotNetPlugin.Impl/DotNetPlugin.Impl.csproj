@@ -29,6 +29,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DotNetPlugin.Stub\DotNetPlugin.Stub.csproj" />
+    <ProjectReference Include="..\Dotx64Dbg.Managed\Dotx64Dbg.Managed.csproj" />
   </ItemGroup>
 
   <ItemGroup>
