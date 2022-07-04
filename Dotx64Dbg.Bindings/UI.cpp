@@ -144,137 +144,137 @@ namespace Dotx64Dbg::Native
             GuiLogClear();
         }
 
-        ref class Menu
-        {
-        public:
-            static int Add(int parent, System::String^ name)
-            {
-                msclr::interop::marshal_context oMarshalContext;
+        //ref class Menu
+        //{
+        //public:
+        //    static int Add(int parent, System::String^ name)
+        //    {
+        //        msclr::interop::marshal_context oMarshalContext;
 
-                const char* cstr = oMarshalContext.marshal_as<const char*>(name);
+        //        const char* cstr = oMarshalContext.marshal_as<const char*>(name);
 
-                return _plugin_menuadd(parent, cstr);
-            }
+        //        return _plugin_menuadd(parent, cstr);
+        //    }
 
-            static bool SetIcon(int hMenu, System::Drawing::Image^ image)
-            {
-                auto data = GetIconData(image);
+        //    static bool SetIcon(int hMenu, System::Drawing::Image^ image)
+        //    {
+        //        auto data = GetIconData(image);
 
-                ICONDATA icon{ 0 };
-                icon.data = &data[0];
-                if (icon.size = data.size(); !icon.size)
-                    return false;
+        //        ICONDATA icon{ 0 };
+        //        icon.data = &data[0];
+        //        if (icon.size = data.size(); !icon.size)
+        //            return false;
 
-                _plugin_menuseticon(hMenu, &icon);
+        //        _plugin_menuseticon(hMenu, &icon);
 
-                return true;
-            }
+        //        return true;
+        //    }
 
-            static bool SetEntryIcon(int hPlugin, int hEntry, System::Drawing::Image^ image)
-            {
-                auto data = GetIconData(image);
+        //    static bool SetEntryIcon(int hPlugin, int hEntry, System::Drawing::Image^ image)
+        //    {
+        //        auto data = GetIconData(image);
 
-                ICONDATA icon{ 0 };
-                icon.data = &data[0];
-                if (icon.size = data.size(); !icon.size)
-                    return false;
+        //        ICONDATA icon{ 0 };
+        //        icon.data = &data[0];
+        //        if (icon.size = data.size(); !icon.size)
+        //            return false;
 
-                _plugin_menuentryseticon(hPlugin, hEntry, &icon);
+        //        _plugin_menuentryseticon(hPlugin, hEntry, &icon);
 
-                return true;
-            }
+        //        return true;
+        //    }
 
-            static bool AddEntry(int parent, int id, System::String^ name)
-            {
-                msclr::interop::marshal_context oMarshalContext;
+        //    static bool AddEntry(int parent, int id, System::String^ name)
+        //    {
+        //        msclr::interop::marshal_context oMarshalContext;
 
-                const char* cstr = oMarshalContext.marshal_as<const char*>(name);
+        //        const char* cstr = oMarshalContext.marshal_as<const char*>(name);
 
-                return _plugin_menuaddentry(parent, id, cstr);
-            }
+        //        return _plugin_menuaddentry(parent, id, cstr);
+        //    }
 
-            static bool AddSeperator(int parent)
-            {
-                return _plugin_menuaddseparator(parent);
-            }
+        //    static bool AddSeperator(int parent)
+        //    {
+        //        return _plugin_menuaddseparator(parent);
+        //    }
 
-            static bool RemoveEntry(int pluginHandle, int id)
-            {
-                return _plugin_menuentryremove(pluginHandle, id);
-            }
+        //    static bool RemoveEntry(int pluginHandle, int id)
+        //    {
+        //        return _plugin_menuentryremove(pluginHandle, id);
+        //    }
 
-            static bool Remove(int id)
-            {
-                return _plugin_menuremove(id);
-            }
+        //    static bool Remove(int id)
+        //    {
+        //        return _plugin_menuremove(id);
+        //    }
 
-        private:
+        //private:
 
-            static std::vector<uint8_t> GetIconData(_In_ System::Drawing::Image^ image)
-            {
-                System::Drawing::Bitmap bitmap(image);
-                bitmap.MakeTransparent();
-                HBITMAP hBitmap = (HBITMAP)bitmap.GetHbitmap().ToPointer(); // Used only for bitmap info
+        //    static std::vector<uint8_t> GetIconData(_In_ System::Drawing::Image^ image)
+        //    {
+        //        System::Drawing::Bitmap bitmap(image);
+        //        bitmap.MakeTransparent();
+        //        HBITMAP hBitmap = (HBITMAP)bitmap.GetHbitmap().ToPointer(); // Used only for bitmap info
 
-                BITMAP bmp{ 0 };
-                if (!GetObject(hBitmap, sizeof(BITMAP), &bmp))
-                    return {};
+        //        BITMAP bmp{ 0 };
+        //        if (!GetObject(hBitmap, sizeof(BITMAP), &bmp))
+        //            return {};
 
-                LONG pixelArraySize = bmp.bmWidthBytes * bmp.bmHeight;
-                const size_t bitmapSize = pixelArraySize + sizeof(BITMAPFILEHEADER) + sizeof(BITMAPV5HEADER);
-                auto bitmapData = std::vector<uint8_t>(bitmapSize);
+        //        LONG pixelArraySize = bmp.bmWidthBytes * bmp.bmHeight;
+        //        const size_t bitmapSize = pixelArraySize + sizeof(BITMAPFILEHEADER) + sizeof(BITMAPV5HEADER);
+        //        auto bitmapData = std::vector<uint8_t>(bitmapSize);
 
-                BITMAPFILEHEADER bmfh{ 0 };
-                bmfh.bfType = 0x4D42;
-                bmfh.bfOffBits = sizeof(BITMAPFILEHEADER) + sizeof(BITMAPV5HEADER);
-                bmfh.bfSize = (DWORD)bitmapSize;
+        //        BITMAPFILEHEADER bmfh{ 0 };
+        //        bmfh.bfType = 0x4D42;
+        //        bmfh.bfOffBits = sizeof(BITMAPFILEHEADER) + sizeof(BITMAPV5HEADER);
+        //        bmfh.bfSize = (DWORD)bitmapSize;
 
-                BITMAPV5HEADER bmh{ 0 };
-                bmh.bV5Size = sizeof(BITMAPV5HEADER);
-                bmh.bV5Width = bmp.bmWidth;
-                bmh.bV5Height = -bmp.bmHeight;
-                bmh.bV5Planes = 1;
-                bmh.bV5BitCount = bmp.bmBitsPixel;
-                bmh.bV5Compression = BI_RGB | BI_BITFIELDS,
-                bmh.bV5RedMask = 0xFF << 16;
-                bmh.bV5GreenMask = 0xFF << 8;
-                bmh.bV5BlueMask = 0xFF;
-                bmh.bV5AlphaMask = 0xFF << 24;
-                bmh.bV5SizeImage = pixelArraySize;
-                bmh.bV5XPelsPerMeter = 0;
-                bmh.bV5YPelsPerMeter = 0;
-                bmh.bV5CSType = LCS_sRGB;
-                bmh.bV5Intent = LCS_GM_GRAPHICS;
+        //        BITMAPV5HEADER bmh{ 0 };
+        //        bmh.bV5Size = sizeof(BITMAPV5HEADER);
+        //        bmh.bV5Width = bmp.bmWidth;
+        //        bmh.bV5Height = -bmp.bmHeight;
+        //        bmh.bV5Planes = 1;
+        //        bmh.bV5BitCount = bmp.bmBitsPixel;
+        //        bmh.bV5Compression = BI_RGB | BI_BITFIELDS,
+        //        bmh.bV5RedMask = 0xFF << 16;
+        //        bmh.bV5GreenMask = 0xFF << 8;
+        //        bmh.bV5BlueMask = 0xFF;
+        //        bmh.bV5AlphaMask = 0xFF << 24;
+        //        bmh.bV5SizeImage = pixelArraySize;
+        //        bmh.bV5XPelsPerMeter = 0;
+        //        bmh.bV5YPelsPerMeter = 0;
+        //        bmh.bV5CSType = LCS_sRGB;
+        //        bmh.bV5Intent = LCS_GM_GRAPHICS;
 
-                /*
-                    Don't get the DI bitmap bits from a handle retrieved by 'Bitmap::GetHbitmap()' because the alpha channel gets destroy.
-                    For this, use the Gdiplus functions like 'LockBits' for retrieving the bitmap data.
-                    Note: Functions and classes fom 'System::Drawing' are pretty much wrappers for Gdiplus
-                */
-                System::Drawing::Rectangle regionRect(0, 0, bmp.bmWidth, bmp.bmHeight);
-                auto bmpData = bitmap.LockBits(regionRect, System::Drawing::Imaging::ImageLockMode::ReadOnly, System::Drawing::Imaging::PixelFormat::Format32bppArgb);
-                void* bmpBits = bmpData->Scan0.ToPointer();
-                // pixel array
-                memcpy_s(
-                    &bitmapData[bmfh.bfOffBits],
-                    bitmapSize - bmfh.bfOffBits,
-                    bmpBits,
-                    pixelArraySize
-                );
-                bitmap.UnlockBits(bmpData);
-                // bmp file header
-                memcpy_s(&bitmapData[0], bitmapSize, &bmfh, sizeof(BITMAPFILEHEADER));
-                // bmp v5 header
-                memcpy_s(
-                    &bitmapData[sizeof(BITMAPFILEHEADER)],
-                    bitmapSize - sizeof(BITMAPFILEHEADER),
-                    &bmh,
-                    sizeof(BITMAPV5HEADER)
-                );
+        //        /*
+        //            Don't get the DI bitmap bits from a handle retrieved by 'Bitmap::GetHbitmap()' because the alpha channel gets destroy.
+        //            For this, use the Gdiplus functions like 'LockBits' for retrieving the bitmap data.
+        //            Note: Functions and classes fom 'System::Drawing' are pretty much wrappers for Gdiplus
+        //        */
+        //        System::Drawing::Rectangle regionRect(0, 0, bmp.bmWidth, bmp.bmHeight);
+        //        auto bmpData = bitmap.LockBits(regionRect, System::Drawing::Imaging::ImageLockMode::ReadOnly, System::Drawing::Imaging::PixelFormat::Format32bppArgb);
+        //        void* bmpBits = bmpData->Scan0.ToPointer();
+        //        // pixel array
+        //        memcpy_s(
+        //            &bitmapData[bmfh.bfOffBits],
+        //            bitmapSize - bmfh.bfOffBits,
+        //            bmpBits,
+        //            pixelArraySize
+        //        );
+        //        bitmap.UnlockBits(bmpData);
+        //        // bmp file header
+        //        memcpy_s(&bitmapData[0], bitmapSize, &bmfh, sizeof(BITMAPFILEHEADER));
+        //        // bmp v5 header
+        //        memcpy_s(
+        //            &bitmapData[sizeof(BITMAPFILEHEADER)],
+        //            bitmapSize - sizeof(BITMAPFILEHEADER),
+        //            &bmh,
+        //            sizeof(BITMAPV5HEADER)
+        //        );
 
-                return bitmapData;
-            }
-        };
+        //        return bitmapData;
+        //    }
+        //};
 
         static System::String^ InputPrompt(System::String^ title)
         {
